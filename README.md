@@ -1,6 +1,6 @@
 ### CreamInstaller: Automatic DLC Unlocker Installer & Configuration Generator
 
-# ⚠️ Disclaimer (Read before installation !)
+# ⚠️ Disclaimer (Read before installation and Follow Us on Github !)
 
 > **This software is an open-source project developed for the community and is not affiliated with any organization or institution.**  
 > It is shared purely for **educational purposes**, software development testing, and to contribute to the growth of the open-source community.
