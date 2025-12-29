@@ -73,6 +73,14 @@ games and DLCs the user selects; however, through the use of **right-click conte
 If the program doesn't seem to launch, try downloading and installing [.NET 7 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-7.0.2-windows-x64-installer).
 
 ---
+#### Building from Source:
+To build the project from source code, you need:
+1. [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) or later
+2. Visual Studio 2022 (or later) with .NET desktop development workload, or Visual Studio Code with C# extension
+
+**Note:** While the application targets .NET 7, you can build it with .NET 8 SDK or later. The `global.json` file ensures SDK compatibility.
+
+---
 #### **NOTE:** This program does not automatically download nor install actual DLC files for you. As the title of the program says, it's only a DLC Unlocker installer. Should the game you wish to unlock DLC for not already come with the DLCs installed (very many do not), you have to find, download, and install those yourself. Preferably, you should be referring to the proper cs.rin.ru post for the game(s) you're tinkering with; you'll usually find any answer to your problems there.
 
 ---
