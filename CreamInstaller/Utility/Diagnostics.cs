@@ -49,6 +49,8 @@ internal static class Diagnostics
     // ArgumentList is used instead of the Arguments string to prevent argument-injection vulnerabilities.
     private static void OpenFileInNotepadPlusPlus(string npp, string path)
     {
+        if (!File.Exists(path))
+            return;
         ProcessStartInfo psi = new() { FileName = npp, UseShellExecute = false };
         psi.ArgumentList.Add(path);
         _ = Process.Start(psi);
@@ -56,6 +58,8 @@ internal static class Diagnostics
 
     private static void OpenFileInWindowsNotepad(string path)
     {
+        if (!File.Exists(path))
+            return;
         ProcessStartInfo psi = new() { FileName = "notepad.exe", UseShellExecute = false };
         psi.ArgumentList.Add(path);
         _ = Process.Start(psi);
@@ -63,6 +67,8 @@ internal static class Diagnostics
 
     internal static void OpenDirectoryInFileExplorer(string path)
     {
+        if (!Directory.Exists(path))
+            return;
         ProcessStartInfo psi = new() { FileName = "explorer.exe", UseShellExecute = false };
         psi.ArgumentList.Add(path);
         _ = Process.Start(psi);

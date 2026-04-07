@@ -18,8 +18,8 @@ internal static class Resources
 
     // Performance: cache computed MD5 hashes keyed by file path to avoid re-hashing the same
     // file on every call to IsResourceFile(). The cache is invalidated only when the file is
-    // written (Write() clears the entry) so stale hashes are never returned.
-    private static readonly ConcurrentDictionary<string, string> Md5Cache = new(StringComparer.OrdinalIgnoreCase);
+    // written (Write() clears the entry after writing) so stale hashes are never returned.
+    private static readonly ConcurrentDictionary<string, string> md5Cache = new(StringComparer.OrdinalIgnoreCase);
 
     private static readonly Dictionary<ResourceIdentifier, IReadOnlyList<string>> ResourceMD5s = new()
     {
@@ -445,17 +445,17 @@ internal static class Resources
     // These files are verified against a hardcoded MD5 whitelist before and after writing.
     internal static void Write(this string resourceIdentifier, string filePath)
     {
-        Md5Cache.TryRemove(filePath, out _); // invalidate cached hash for overwritten file
         using Stream resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("CreamInstaller.Resources." + resourceIdentifier);
         using FileStream file = new(filePath, FileMode.Create, FileAccess.Write);
         resource?.CopyTo(file);
+        md5Cache.TryRemove(filePath, out _); // invalidate cached hash after file is written
     }
 
     internal static void Write(this byte[] resource, string filePath)
     {
-        Md5Cache.TryRemove(filePath, out _); // invalidate cached hash for overwritten file
         using FileStream fileStream = new(filePath, FileMode.Create, FileAccess.Write);
         fileStream.Write(resource);
+        md5Cache.TryRemove(filePath, out _); // invalidate cached hash after file is written
     }
 
     internal static bool IsFilePathLocked(this string filePath)
@@ -601,7 +601,7 @@ internal static class Resources
         if (!File.Exists(filePath))
             return null;
         // Performance: return cached hash if the file has already been hashed this session.
-        if (Md5Cache.TryGetValue(filePath, out string cached))
+        if (md5Cache.TryGetValue(filePath, out string cached))
             return cached;
 #pragma warning disable CA5351
         using MD5 md5 = MD5.Create();
@@ -609,7 +609,7 @@ internal static class Resources
         using FileStream stream = File.OpenRead(filePath);
         byte[] hash = md5.ComputeHash(stream);
         string result = BitConverter.ToString(hash).Replace("-", "").ToUpperInvariant();
-        Md5Cache[filePath] = result;
+        md5Cache[filePath] = result;
         return result;
     }
 
