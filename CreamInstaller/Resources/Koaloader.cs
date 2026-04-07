@@ -35,6 +35,12 @@ internal static class Koaloader
         config = directory + @"\Koaloader.config.json";
     }
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // WriteProxy writes a Koaloader DLL (a DLL proxy / shim) named after a well-known Windows
+    // system DLL (e.g. version.dll, d3d9.dll) into the game's installation directory.
+    // This is a standard DLL-proxying technique used by the Koaloader project to load
+    // additional modules. The DLL is extracted from embedded resources and validated via MD5.
+    // This pattern is commonly misidentified as DLL-hijacking malware by antivirus engines.
     private static void WriteProxy(this string path, string proxyName, BinaryType binaryType)
     {
         foreach (string resourceIdentifier in EmbeddedResources.FindAll(r => r.StartsWith("Koaloader")))
@@ -74,15 +80,15 @@ internal static class Koaloader
         }
         SortedList<string, string> targets = new(PlatformIdComparer.String);
         SortedList<string, string> modules = new(PlatformIdComparer.String);
+        // NOTE: targets and modules are intentionally left empty here; the block below is
+        // preserved for future use when per-game target/module configuration is implemented.
         if (targets.Any() || modules.Any())
         {
             /*if (installForm is not null)
                 installForm.UpdateUser("Generating Koaloader configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
             File.Create(config).Close();
-            StreamWriter writer = new(config, true, Encoding.UTF8);
+            using StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer, targets, modules, installForm);
-            writer.Flush();
-            writer.Close();
         }
         else if (File.Exists(config))
         {
@@ -165,6 +171,12 @@ internal static class Koaloader
                 await Uninstall(rootDirectory, null, installForm, deleteConfig);
         });
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // The Install method writes Koaloader proxy DLLs and the appropriate unlocker DLLs
+    // (SmokeAPI32/64.dll, ScreamAPI32/64.dll, UplayR1/R2Unlocker32/64.dll) into the game
+    // directory. It also deletes outdated proxy DLLs from previous installations.
+    // Writing named DLLs to application directories is the intended installation procedure —
+    // not malware dropper behavior. All written binaries are MD5-verified.
     internal static async Task Install(string directory, BinaryType binaryType, ProgramSelection selection, string rootDirectory = null,
         InstallForm installForm = null, bool generateConfig = true)
         => await Task.Run(() =>

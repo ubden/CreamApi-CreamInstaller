@@ -34,10 +34,8 @@ internal static class UplayR1
             /*if (installForm is not null)
                 installForm.UpdateUser("Generating Uplay R1 Unlocker configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
             File.Create(config).Close();
-            StreamWriter writer = new(config, true, Encoding.UTF8);
+            using StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer, new(blacklistDlc.ToDictionary(pair => pair.Key, pair => pair.Value), PlatformIdComparer.String), installForm);
-            writer.Flush();
-            writer.Close();
         }
         else if (File.Exists(config))
         {
@@ -71,6 +69,8 @@ internal static class UplayR1
         writer.WriteLine("}");
     }
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Uninstall deletes the Uplay R1 Unlocker DLL and restores the original uplay_r1_loader*.dll.
     internal static async Task Uninstall(string directory, InstallForm installForm = null, bool deleteOthers = true)
         => await Task.Run(() =>
         {
@@ -109,6 +109,9 @@ internal static class UplayR1
             }
         });
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Install renames uplay_r1_loader*.dll to *_o backups and writes the Uplay R1 Unlocker DLL.
+    // Replacing Uplay/Ubisoft Connect loader DLLs is the intended installation method.
     internal static async Task Install(string directory, ProgramSelection selection, InstallForm installForm = null, bool generateConfig = true)
         => await Task.Run(() =>
         {

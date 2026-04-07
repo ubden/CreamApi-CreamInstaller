@@ -62,6 +62,10 @@ internal static class SteamCMD
                     }
                     if (Program.Canceled)
                         return "";
+                    // ANTIVIRUS FALSE POSITIVE WARNING:
+                    // Launches steamcmd.exe with +login anonymous +app_info_print <appId> +quit to
+                    // retrieve game metadata from Steam. The process output is captured and parsed.
+                    // SteamCMD is an official Valve tool; launching it does not indicate malicious intent.
                     ProcessStartInfo processStartInfo = new()
                     {
                         FileName = FilePath, RedirectStandardOutput = true, RedirectStandardInput = true, RedirectStandardError = true,
@@ -117,6 +121,12 @@ internal static class SteamCMD
             goto wait_for_lock;
         });
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Setup downloads steamcmd.zip from Valve's official CDN (steamcdn-a.akamaihd.net),
+    // extracts the ZIP archive, and runs steamcmd.exe once with +quit to initialise it.
+    // Downloading and extracting an executable is flagged by some AV heuristics as a dropper;
+    // the source is Valve's own content delivery network and is used only when steamcmd.exe
+    // is not already present in the CreamInstaller data directory.
     internal static async Task Setup(IProgress<int> progress)
     {
         await Cleanup();
@@ -271,6 +281,10 @@ internal static class SteamCMD
             return dlcIds;
         });
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Kill enumerates running processes by name ("steamcmd") and terminates them.
+    // Process-enumeration and process-kill APIs are used here only to clean up child
+    // steamcmd.exe instances that were started by this application.
     private static async Task Kill()
     {
         List<Task> tasks = Process.GetProcessesByName("steamcmd").Select(process => Task.Run(() =>
