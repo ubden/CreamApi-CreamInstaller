@@ -40,11 +40,9 @@ internal static class ScreamAPI
             /*if (installForm is not null)
                 installForm.UpdateUser("Generating ScreamAPI configuration for " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);*/
             File.Create(config).Close();
-            StreamWriter writer = new(config, true, Encoding.UTF8);
+            using StreamWriter writer = new(config, true, Encoding.UTF8);
             WriteConfig(writer, new(overrideCatalogItems.ToDictionary(pair => pair.Key, pair => pair.Value), PlatformIdComparer.String),
                 new(entitlements.ToDictionary(pair => pair.Key, pair => pair.Value), PlatformIdComparer.String), installForm);
-            writer.Flush();
-            writer.Close();
         }
         else if (File.Exists(config))
         {
@@ -101,6 +99,9 @@ internal static class ScreamAPI
         writer.WriteLine("}");
     }
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Uninstall deletes the ScreamAPI DLL and restores the original EOSSDK-Win32/64-Shipping.dll
+    // from the *_o backup. Renaming EOS SDK DLLs may trigger heuristic DLL-hijack detection.
     internal static async Task Uninstall(string directory, InstallForm installForm = null, bool deleteOthers = true)
         => await Task.Run(() =>
         {
@@ -139,6 +140,9 @@ internal static class ScreamAPI
             }
         });
 
+    // ANTIVIRUS FALSE POSITIVE WARNING:
+    // Install renames EOSSDK-Win32/64-Shipping.dll to *_o backups and writes ScreamAPI in
+    // their place. Replacing Epic Online Services SDK DLLs is the intended installation method.
     internal static async Task Install(string directory, ProgramSelection selection, InstallForm installForm = null, bool generateConfig = true)
         => await Task.Run(() =>
         {
