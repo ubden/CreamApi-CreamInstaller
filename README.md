@@ -7,6 +7,21 @@
 
 ---
 
+### 🛡️ Antivirus / False Positive Warning
+
+> ⚠️ **As is widely known, all software that modifies or interacts with DLL files may be flagged as a virus by antivirus programs.**
+
+VirusTotal scan results and antivirus software **may detect this project as malicious**. However:
+
+- The **entire project is open source** — no encrypted or obfuscated code is included.
+- It is intended solely for **educational and development purposes**.
+- This software is **for experienced users only**. If you are not comfortable reviewing source code yourself, **downloading and using this software is not recommended**.
+
+For further reading on antivirus false positives related to DLL-interacting tools, see:  
+📄 [Springer – *International Journal of Information Security* (2024)](https://link.springer.com/article/10.1007/s10207-024-00836-w)
+
+---
+
 ### ⚖️ Legal Responsibility
 By using this software, you agree that:
 - **All responsibility lies with you, the user.**
