@@ -18,7 +18,8 @@ VirusTotal scan results and antivirus software **may detect this project as mali
 - This software is **for experienced users only**. If you are not comfortable reviewing source code yourself, **downloading and using this software is not recommended**.
 
 For further reading on antivirus false positives related to DLL-interacting tools, see:  
-📄 [Springer – *International Journal of Information Security* (2024)](https://link.springer.com/article/10.1007/s10207-024-00836-w)
+📄 [Springer – *International Journal of Information Security* (2024)](https://link.springer.com/article/10.1007/s10207-024-00836-w)  
+📖 [Wikipedia – Antivirus Software](https://en.wikipedia.org/wiki/Antivirus_software)
 
 ---
 
