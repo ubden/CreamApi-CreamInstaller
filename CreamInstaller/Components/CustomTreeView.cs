@@ -80,10 +80,10 @@ internal sealed class CustomTreeView : TreeView
         if (string.IsNullOrWhiteSpace(platformId) || platform is Platform.None)
             return;
         color = highlighted
-            ? ColorTranslator.FromHtml("#FFEE88")   // bright yellow on selection
+            ? ColorTranslator.FromHtml("#FFFF99")
             : Enabled
-                ? ColorTranslator.FromHtml("#FBBF24") // amber — visible on dark bg
-                : ColorTranslator.FromHtml("#C8A840"); // muted amber when disabled
+                ? ColorTranslator.FromHtml("#696900")
+                : ColorTranslator.FromHtml("#AAAA69");
         text = platform.ToString();
         size = TextRenderer.MeasureText(graphics, text, font);
         bounds = bounds with { X = bounds.X + bounds.Width, Width = size.Width };
@@ -94,10 +94,10 @@ internal sealed class CustomTreeView : TreeView
         if (platform is not Platform.Paradox)
         {
             color = highlighted
-                ? ColorTranslator.FromHtml("#88EEFF")   // bright cyan on selection
+                ? ColorTranslator.FromHtml("#99FFFF")
                 : Enabled
-                    ? ColorTranslator.FromHtml("#38BDF8") // sky-blue — visible on dark bg
-                    : ColorTranslator.FromHtml("#5890A8"); // muted blue when disabled
+                    ? ColorTranslator.FromHtml("#006969")
+                    : ColorTranslator.FromHtml("#69AAAA");
             text = platformId;
             size = TextRenderer.MeasureText(graphics, text, font);
             const int left = -4;
@@ -140,8 +140,7 @@ internal sealed class CustomTreeView : TreeView
                 checkBoxBounds = new(checkBoxBounds.Location, checkBoxBounds.Size + bounds.Size with { Height = 0 });
                 graphics.FillRectangle(backBrush, bounds);
                 point = new(bounds.Location.X - 1 + left, bounds.Location.Y + 1);
-                TextRenderer.DrawText(graphics, text, font, point,
-                    Enabled ? ColorTranslator.FromHtml("#4ADE80") : ColorTranslator.FromHtml("#6AA87A"),
+                TextRenderer.DrawText(graphics, text, font, point, Enabled ? ColorTranslator.FromHtml("#006900") : ColorTranslator.FromHtml("#69AA69"),
                     TextFormatFlags.Default);
                 this.checkBoxBounds[selection] = RectangleToClient(checkBoxBounds);
                 string proxy = selection.KoaloaderProxy ?? ProgramSelection.DefaultKoaloaderProxy;
