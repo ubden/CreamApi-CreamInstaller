@@ -189,7 +189,7 @@ internal sealed class CustomTreeView : TreeView
             }
         if (e.Button is not MouseButtons.Left)
             return;
-        if (comboBoxBounds.Any() && selectForm is not null)
+        if (comboBoxBounds.Count > 0 && selectForm is not null)
             foreach (KeyValuePair<ProgramSelection, Rectangle> pair in comboBoxBounds)
                 if (!ProgramSelection.All.Contains(pair.Key))
                     _ = comboBoxBounds.Remove(pair.Key);

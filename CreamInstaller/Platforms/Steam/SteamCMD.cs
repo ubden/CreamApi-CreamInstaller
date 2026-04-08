@@ -210,8 +210,8 @@ internal static class SteamCMD
         else
         {
             output = await Run(appId) ?? "";
-            int openBracket = output.IndexOf("{", StringComparison.Ordinal);
-            int closeBracket = output.LastIndexOf("}", StringComparison.Ordinal);
+            int openBracket = output.IndexOf('{');
+            int closeBracket = output.LastIndexOf('}');
             if (openBracket != -1 && closeBracket != -1 && closeBracket > openBracket)
             {
                 output = $"\"{appId}\"\n" + output[openBracket..(1 + closeBracket)];

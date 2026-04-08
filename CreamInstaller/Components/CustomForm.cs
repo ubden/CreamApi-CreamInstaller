@@ -66,7 +66,7 @@ internal class CustomForm : Form
 
         // Enable dark title bar on Windows 10 20H1+ and Windows 11
         int dark = 1;
-        DwmSetWindowAttribute(Handle, 20 /* DWMWA_USE_IMMERSIVE_DARK_MODE */, ref dark, sizeof(int));
+        _ = DwmSetWindowAttribute(Handle, 20 /* DWMWA_USE_IMMERSIVE_DARK_MODE */, ref dark, sizeof(int));
 
         // Apply dark theme to this form and all its controls
         BackColor = ThemeManager.Background;

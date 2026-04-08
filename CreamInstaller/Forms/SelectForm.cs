@@ -41,7 +41,7 @@ internal sealed partial class SelectForm : CustomForm
     private List<TreeNode> TreeNodes => GatherTreeNodes(selectionTreeView.Nodes);
 
     private static void UpdateRemaining(Label label, SynchronizedCollection<string> list, string descriptor)
-        => label.Text = list.Any() ? $"Remaining {descriptor} ({list.Count}): " + string.Join(", ", list).Replace("&", "&&") : "";
+        => label.Text = list.Count > 0 ? $"Remaining {descriptor} ({list.Count}): " + string.Join(", ", list).Replace("&", "&&") : "";
 
     private void UpdateRemainingGames() => UpdateRemaining(progressLabelGames, remainingGames, "games");
 

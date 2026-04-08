@@ -102,8 +102,7 @@ internal static class ProgramData
             return Enumerable.Empty<(Platform platform, string id)>();
         try
         {
-            return JsonConvert.DeserializeObject(File.ReadAllText(ProgramChoicesPath), typeof(List<(Platform platform, string id)>)) as
-                List<(Platform platform, string id)>;
+            return JsonConvert.DeserializeObject<List<(Platform platform, string id)>>(File.ReadAllText(ProgramChoicesPath));
         }
         catch
         {
@@ -111,11 +110,11 @@ internal static class ProgramData
         }
     }
 
-    internal static void WriteProgramChoices(IEnumerable<(Platform platform, string id)> choices)
+    internal static void WriteProgramChoices(List<(Platform platform, string id)> choices)
     {
         try
         {
-            if (choices is null || !choices.Any())
+            if (choices is null || choices.Count == 0)
                 File.Delete(ProgramChoicesPath);
             else
                 File.WriteAllText(ProgramChoicesPath, JsonConvert.SerializeObject(choices));
@@ -132,8 +131,7 @@ internal static class ProgramData
             return Enumerable.Empty<(Platform platform, string gameId, string dlcId)>();
         try
         {
-            return JsonConvert.DeserializeObject(File.ReadAllText(DlcChoicesPath), typeof(IEnumerable<(Platform platform, string gameId, string dlcId)>)) as
-                IEnumerable<(Platform platform, string gameId, string dlcId)>;
+            return JsonConvert.DeserializeObject<List<(Platform platform, string gameId, string dlcId)>>(File.ReadAllText(DlcChoicesPath));
         }
         catch
         {
@@ -145,7 +143,7 @@ internal static class ProgramData
     {
         try
         {
-            if (choices is null || !choices.Any())
+            if (choices is null || choices.Count == 0)
                 File.Delete(DlcChoicesPath);
             else
                 File.WriteAllText(DlcChoicesPath, JsonConvert.SerializeObject(choices));
@@ -162,9 +160,7 @@ internal static class ProgramData
             return Enumerable.Empty<(Platform platform, string id, string proxy, bool enabled)>();
         try
         {
-            return JsonConvert.DeserializeObject(File.ReadAllText(KoaloaderProxyChoicesPath),
-                    typeof(IEnumerable<(Platform platform, string id, string proxy, bool enabled)>)) as
-                IEnumerable<(Platform platform, string id, string proxy, bool enabled)>;
+            return JsonConvert.DeserializeObject<List<(Platform platform, string id, string proxy, bool enabled)>>(File.ReadAllText(KoaloaderProxyChoicesPath));
         }
         catch
         {
@@ -172,11 +168,11 @@ internal static class ProgramData
         }
     }
 
-    internal static void WriteKoaloaderProxyChoices(IEnumerable<(Platform platform, string id, string proxy, bool enabled)> choices)
+    internal static void WriteKoaloaderProxyChoices(List<(Platform platform, string id, string proxy, bool enabled)> choices)
     {
         try
         {
-            if (choices is null || !choices.Any())
+            if (choices is null || choices.Count == 0)
                 File.Delete(KoaloaderProxyChoicesPath);
             else
                 File.WriteAllText(KoaloaderProxyChoicesPath, JsonConvert.SerializeObject(choices));

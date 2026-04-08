@@ -29,7 +29,7 @@ jobs:
         run: dotnet build CreamInstaller/CreamInstaller.csproj -c Release --no-restore
 
       - name: Check code formatting
-        run: dotnet format CreamInstaller/CreamInstaller.csproj --verify-no-changes --severity warn
+        run: dotnet format CreamInstaller/CreamInstaller.csproj --verify-no-changes --severity info
         continue-on-error: true
 
       - name: Upload build artifact

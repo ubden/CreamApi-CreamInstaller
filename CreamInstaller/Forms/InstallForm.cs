@@ -213,7 +213,7 @@ internal sealed partial class InstallForm : CustomForm
         }
         Program.Cleanup();
         List<ProgramSelection> failedSelections = ProgramSelection.AllEnabled;
-        if (failedSelections.Any())
+        if (failedSelections.Count > 0)
             if (failedSelections.Count == 1)
                 throw new CustomMessageException($"Operation failed for {failedSelections.First().Name}.");
             else

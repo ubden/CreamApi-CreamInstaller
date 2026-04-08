@@ -94,7 +94,7 @@ internal sealed partial class SelectDialogForm : CustomForm
 
     private void OnSave(object sender, EventArgs e)
     {
-        ProgramData.WriteProgramChoices(selectionTreeView.Nodes.Cast<TreeNode>().Where(n => n.Checked).Select(node => ((Platform)node.Tag, node.Name)));
+        ProgramData.WriteProgramChoices(selectionTreeView.Nodes.Cast<TreeNode>().Where(n => n.Checked).Select(node => ((Platform)node.Tag, node.Name)).ToList());
         loadButton.Enabled = ProgramData.ReadProgramChoices() is not null;
     }
 }
