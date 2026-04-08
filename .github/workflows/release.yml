@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: Restore dependencies
+        run: dotnet restore CreamInstaller/CreamInstaller.csproj
+
+      - name: Publish (self-contained single file)
+        run: |
+          dotnet publish CreamInstaller/CreamInstaller.csproj `
+            -c Release `
+            -r win-x64 `
+            --self-contained false `
+            -p:PublishSingleFile=true `
+            -p:IncludeAllContentForSelfExtract=true `
+            -o publish/
+
+      - name: Create release archive
+        run: |
+          Compress-Archive -Path publish/CreamInstaller.exe -DestinationPath CreamInstaller.zip
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          $tag = "${{ github.ref_name }}"
+          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "CreamInstaller ${{ steps.version.outputs.tag }}"
+          files: CreamInstaller.zip
+          generate_release_notes: true
+          body: |
+            ## CreamInstaller ${{ steps.version.outputs.tag }}
+
+            ### Download
+            Download `CreamInstaller.zip`, extract and run `CreamInstaller.exe`.
+
+            ### Requirements
+            - Windows 10/11 (x64)
+            - [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+
+            ---
+            > ⚠️ This software is for **educational purposes only**. No official support is provided.
+            > For community support, visit [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions) or the [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/).

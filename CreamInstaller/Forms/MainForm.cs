@@ -28,6 +28,7 @@ internal sealed partial class MainForm : CustomForm
     {
         InitializeComponent();
         Text = Program.ApplicationNameShort;
+        headerLabel.Text = Program.ApplicationNameShort;
     }
 
     private void StartProgram()
@@ -52,12 +53,14 @@ internal sealed partial class MainForm : CustomForm
 
     private async void OnLoad()
     {
-        progressBar.Visible = false;
-        ignoreButton.Visible = true;
-        updateButton.Text = "Update";
-        updateButton.Click -= OnUpdateCancel;
-        progressLabel.Text = "Checking for updates . . .";
-        changelogTreeView.Visible = false;
+        progressBar.Visible   = false;
+        ignoreButton.Visible  = true;
+        updateButton.Text     = "Update";
+        updateButton.IsAccent = true;
+        updateButton.Click   -= OnUpdateCancel;
+        progressLabel.Text    = "Checking for updates . . .";
+        progressLabel.ForeColor = Components.ThemeManager.TextSecondary;
+        changelogTreeView.Visible  = false;
         changelogTreeView.Location = progressLabel.Location with { Y = progressLabel.Location.Y + progressLabel.Size.Height + 13 };
         Refresh();
 #if DEBUG
@@ -108,10 +111,11 @@ internal sealed partial class MainForm : CustomForm
         }
         else
         {
-            progressLabel.Text = $"An update is available: v{latestVersion}";
-            ignoreButton.Enabled = true;
-            updateButton.Enabled = true;
-            updateButton.Click += OnUpdate;
+            progressLabel.Text      = $"An update is available: v{latestVersion}";
+            progressLabel.ForeColor = Components.ThemeManager.Warning;
+            ignoreButton.Enabled    = true;
+            updateButton.Enabled    = true;
+            updateButton.Click     += OnUpdate;
             changelogTreeView.Visible = true;
             Version currentVersion = new(Program.Version);
 #if DEBUG
@@ -177,18 +181,20 @@ internal sealed partial class MainForm : CustomForm
 
     private async void OnUpdate(object sender, EventArgs e)
     {
-        progressBar.Visible = true;
-        ignoreButton.Visible = false;
-        updateButton.Text = "Cancel";
-        updateButton.Click -= OnUpdate;
-        updateButton.Click += OnUpdateCancel;
+        progressBar.Visible   = true;
+        ignoreButton.Visible  = false;
+        updateButton.Text     = "Cancel";
+        updateButton.IsAccent = false;
+        updateButton.Click   -= OnUpdate;
+        updateButton.Click   += OnUpdateCancel;
         changelogTreeView.Location = progressBar.Location with { Y = progressBar.Location.Y + progressBar.Size.Height + 6 };
         Refresh();
         Progress<double> progress = new();
         progress.ProgressChanged += delegate(object _, double _progress)
         {
-            progressLabel.Text = $"Updating . . . {(int)_progress}%";
-            progressBar.Value = (int)_progress;
+            progressLabel.Text      = $"Updating . . . {(int)_progress}%";
+            progressLabel.ForeColor = Components.ThemeManager.Accent;
+            progressBar.Value       = (int)_progress;
         };
         progressLabel.Text = "Updating . . . ";
         cancellationTokenSource = new();

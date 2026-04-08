@@ -1,0 +1,30 @@
+title: "[General] "
+labels: ["general"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💬 General Discussion
+        Welcome! Use this template for general questions, ideas, and conversations.
+
+        > ⚠️ **No official support is provided.** Community members may help, but responses are not guaranteed.
+        > For quicker responses, also check the [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/).
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Topic
+      description: What would you like to discuss?
+      placeholder: Describe your topic...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-discussion checklist
+      options:
+        - label: I have read the [README](https://github.com/ubden-community/CreamApi-CreamInstaller/blob/main/README.md)
+          required: true
+        - label: I have searched existing discussions for similar topics
+          required: true

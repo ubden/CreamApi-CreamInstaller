@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net9.0-windows</TargetFramework>
 		<UseWindowsForms>True</UseWindowsForms>
 		<ApplicationIcon>Resources\ini.ico</ApplicationIcon>
-		<Version>4.5.0.0</Version>
-		<Copyright>2021, pointfeev (https://github.com/pointfeev)</Copyright>
+		<Version>5.0.0.0</Version>
+		<Copyright>2024-2026, ubden-community (https://github.com/ubden-community)</Copyright>
 		<Company>CreamInstaller</Company>
 		<Product>Automatic DLC Unlocker Installer &amp; Configuration Generator</Product>
 		<StartupObject>CreamInstaller.Program</StartupObject>
@@ -143,10 +143,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.67" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Onova" Version="2.6.3" />
-		<PackageReference Include="System.Reflection.Metadata" Version="7.0.0" />
+		<PackageReference Include="System.Reflection.Metadata" Version="9.0.0" />
 		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
 	</ItemGroup>
 	<ItemGroup>

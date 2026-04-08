@@ -1,4 +1,10 @@
-### CreamInstaller: Automatic DLC Unlocker Installer & Configuration Generator
+### CreamInstaller v5.0: Automatic DLC Unlocker Installer & Configuration Generator
+
+> 🙌 **Community Support** (No official support provided):
+> - [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions)
+> - [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/)
+
+---
 
 # ⚠️ Disclaimer 
 ## (Read before installation and Follow Us on Github !)
@@ -84,18 +90,18 @@ games and DLCs the user selects; however, through the use of **right-click conte
 
 ---
 #### Installation:
-1. Click [here]([https://github.com/pointfeev/CreamInstaller/releases/latest/download/CreamInstaller.zip](https://github.com/ubden/CreamApi/releases)) to download the latest release from [GitHub]([https://github.com/pointfeev/CreamInstaller](https://github.com/ubden/CreamApi/releases)).
-2. Extract the executable to anywhere on your computer you want. *It's completely self-contained.*
+1. Download the latest release from [GitHub Releases](https://github.com/ubden-community/CreamApi-CreamInstaller/releases/latest).
+2. Extract `CreamInstaller.exe` to anywhere on your computer. *It's completely self-contained.*
 
-If the program doesn't seem to launch, try downloading and installing [.NET 7 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-7.0.2-windows-x64-installer).
+If the program doesn't launch, install the [.NET 9 Desktop Runtime (x64)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
 
 ---
 #### Building from Source:
 To build the project from source code, you need:
-1. [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) or later
+1. [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) or later (SDK 10.x is also supported)
 2. Visual Studio 2022 (or later) with .NET desktop development workload, or Visual Studio Code with C# extension
 
-**Note:** While the application targets .NET 7, you can build it with .NET 8 SDK or later. The `global.json` file ensures SDK compatibility.
+**Note:** The application targets .NET 9. The `global.json` file uses `rollForward: latestMajor` for maximum SDK compatibility.
 
 ---
 #### **NOTE:** This program does not automatically download nor install actual DLC files for you. As the title of the program says, it's only a DLC Unlocker installer. Should the game you wish to unlock DLC for not already come with the DLCs installed (very many do not), you have to find, download, and install those yourself. Preferably, you should be referring to the proper cs.rin.ru post for the game(s) you're tinkering with; you'll usually find any answer to your problems there.
@@ -114,7 +120,11 @@ To build the project from source code, you need:
 
 ---
 ##### Bugs/Crashes/Issues:
-For reliable and quick assistance, all bugs, crashes and other issues should be referred to the [GitHub Issues]([https://github.com/](https://github.com/ubden/CreamApi/issues)) page!
+For reliable and quick assistance, all bugs, crashes and other issues should be referred to the [GitHub Issues](https://github.com/ubden-community/CreamApi-CreamInstaller/issues) page!
+
+> ⚠️ **No official support is provided.** For community help visit:
+> - [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions)
+> - [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/)
 
 ---
 

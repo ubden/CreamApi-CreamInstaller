@@ -1,0 +1,46 @@
+title: "[Q&A] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🙏 Question & Answer
+        Ask the community for help. Please be as specific as possible.
+
+        > ⚠️ **No official support is provided.** This is community-only support.
+        > You can also ask at the [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/).
+
+  - type: input
+    id: version
+    attributes:
+      label: CreamInstaller Version
+      placeholder: "e.g., v5.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What are you trying to do? What have you already tried?
+      placeholder: Describe your question in detail...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: OS version, game platform (Steam/Epic/Ubisoft), error messages, etc.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before asking
+      options:
+        - label: I have read the [README](https://github.com/ubden-community/CreamApi-CreamInstaller/blob/main/README.md) fully
+          required: true
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I understand this software is for educational purposes only
+          required: true

@@ -18,9 +18,14 @@ internal static class Program
     private static readonly string Description = Application.ProductName;
     internal static readonly string Version = Application.ProductVersion;
 
-    internal const string RepositoryOwner = "pointfeev";
-    internal static readonly string RepositoryName = Name;
+    internal const string RepositoryOwner = "ubden-community";
+    internal static readonly string RepositoryName = "CreamApi-CreamInstaller";
     internal static readonly string RepositoryPackage = Name + ".zip";
+
+    internal const string CommunityDiscussions = "https://github.com/ubden/CreamApi-CreamInstaller/discussions";
+    internal const string CommunityForum = "https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/";
+    internal const string AbuseEmail = "abuse@ubden.com";
+    internal const string DonateUrl = "https://ubd.one/donate";
 #if DEBUG
     internal static readonly string ApplicationName = Name + " v" + Version + "-debug: " + Description;
     internal static readonly string ApplicationNameShort = Name + " v" + Version + "-debug";
@@ -75,13 +80,14 @@ internal static class Program
         using Mutex mutex = new(true, Name, out bool createdNew);
         if (createdNew)
         {
-            _ = Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            _ = Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ApplicationExit += OnApplicationExit;
             Application.ThreadException += (_, e) => e.Exception.HandleFatalException();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             AppDomain.CurrentDomain.UnhandledException += (_, e) => (e.ExceptionObject as Exception)?.HandleFatalException();
+            _ = Utility.AppSettings.Current; // Initialize settings on startup
         retry:
             try
             {

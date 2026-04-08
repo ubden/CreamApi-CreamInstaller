@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CreamInstaller.Components;
 using CreamInstaller.Resources;
 using CreamInstaller.Utility;
@@ -28,7 +29,7 @@ internal sealed partial class InstallForm : CustomForm
     {
         InitializeComponent();
         Text = Program.ApplicationName;
-        logTextBox.BackColor = LogTextBox.Background;
+        logTextBox.BackColor = Components.ThemeManager.LogBg;
         uninstalling = uninstall;
     }
 
@@ -242,9 +243,10 @@ internal sealed partial class InstallForm : CustomForm
             retryButton.Enabled = true;
         }
         userProgressBar.Value = userProgressBar.Maximum;
-        acceptButton.Enabled = true;
-        cancelButton.Enabled = false;
+        acceptButton.Enabled   = true;
+        cancelButton.Enabled   = false;
         reselectButton.Enabled = true;
+        exportLogButton.Enabled = true;
     }
 
     private void OnLoad(object sender, EventArgs _)
@@ -286,5 +288,27 @@ internal sealed partial class InstallForm : CustomForm
             selection.Enabled = true;
         disabledSelections.Clear();
         Close();
+    }
+
+    private void OnExportLog(object sender, EventArgs e)
+    {
+        using SaveFileDialog dlg = new()
+        {
+            Title            = "Export Installation Log",
+            Filter           = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+            FileName         = $"CreamInstaller_Log_{DateTime.Now:yyyyMMdd_HHmmss}.txt",
+            DefaultExt       = "txt",
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+        };
+        if (dlg.ShowDialog(this) != System.Windows.Forms.DialogResult.OK) return;
+        try
+        {
+            File.WriteAllText(dlg.FileName, logTextBox.Text);
+            UpdateUser($"Log exported to: {dlg.FileName}", LogTextBox.Success, info: false);
+        }
+        catch (Exception ex)
+        {
+            UpdateUser($"Failed to export log: {ex.Message}", LogTextBox.Error, info: false);
+        }
     }
 }

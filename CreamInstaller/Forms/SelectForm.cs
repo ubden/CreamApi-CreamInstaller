@@ -610,6 +610,9 @@ internal sealed partial class SelectForm : CustomForm
         scanButton.Enabled = true;
         blockedGamesCheckBox.Enabled = true;
         blockProtectedHelpButton.Enabled = true;
+        AppSettings.Current.LastScanTime = DateTime.Now;
+        AppSettings.Current.Save();
+        UpdateStatus();
     }
 
     private void OnTreeViewNodeCheckedChanged(object sender, TreeViewEventArgs e)
@@ -895,6 +898,10 @@ internal sealed partial class SelectForm : CustomForm
         {
             HideProgressBar();
             selectionTreeView.AfterCheck += OnTreeViewNodeCheckedChanged;
+            // Restore window position/size from settings
+            AppSettings.Current.RestoreFormState(this, restoreSize: true);
+            AppSettings.Current.SortByName = sortCheckBox.Checked;
+            sortCheckBox.Checked = AppSettings.Current.SortByName;
             OnLoad(forceProvideChoices: true);
         }
         catch (Exception e)
@@ -1126,4 +1133,96 @@ internal sealed partial class SelectForm : CustomForm
 
     private void OnSortCheckBoxChanged(object sender, EventArgs e)
         => selectionTreeView.TreeViewNodeSorter = sortCheckBox.Checked ? PlatformIdComparer.NodeText : PlatformIdComparer.NodeName;
+
+    // ── Search / Filter ────────────────────────────────────────────────────────
+    private void OnSearchTextChanged(object sender, EventArgs e)
+    {
+        string query = searchTextBox.Text.Trim();
+        FilterTreeNodes(query);
+    }
+
+    private void FilterTreeNodes(string query)
+    {
+        selectionTreeView.BeginUpdate();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                // Restore all nodes visibility by re-expanding roots
+                foreach (TreeNode root in selectionTreeView.Nodes)
+                {
+                    root.BackColor = ThemeManager.Background;
+                    root.ForeColor = Components.ThemeManager.TextPrimary;
+                }
+                selectionTreeView.CollapseAll();
+                return;
+            }
+            string q = query.ToLowerInvariant();
+            foreach (TreeNode root in selectionTreeView.Nodes)
+            {
+                bool matchRoot = root.Text.Contains(q, StringComparison.OrdinalIgnoreCase);
+                bool anyChildMatch = root.Nodes.Cast<TreeNode>()
+                    .Any(child => child.Text.Contains(q, StringComparison.OrdinalIgnoreCase));
+                if (matchRoot || anyChildMatch)
+                {
+                    root.BackColor = matchRoot ? Components.ThemeManager.SurfaceHover : Components.ThemeManager.Background;
+                    root.ForeColor = Components.ThemeManager.TextPrimary;
+                    root.Expand();
+                }
+                else
+                {
+                    root.BackColor = Components.ThemeManager.Background;
+                    root.ForeColor = Components.ThemeManager.TextDisabled;
+                    root.Collapse();
+                }
+            }
+        }
+        finally
+        {
+            selectionTreeView.EndUpdate();
+        }
+    }
+
+    // ── StatusStrip ────────────────────────────────────────────────────────────
+    private void UpdateStatus()
+    {
+        int gameCount = selectionTreeView.Nodes.Count;
+        int dlcCount  = TreeNodes.Count(n => n.Parent is not null);
+        int selectedGames = selectionTreeView.Nodes.Cast<TreeNode>().Count(n => n.Checked);
+
+        statusLabelGames.Text = gameCount > 0
+            ? $"{selectedGames} / {gameCount} games selected"
+            : "No games found";
+
+        statusLabelDLCs.Text = dlcCount > 0
+            ? $"{dlcCount} DLC entries"
+            : "";
+
+        if (AppSettings.Current.LastScanTime.HasValue)
+        {
+            TimeSpan ago = DateTime.Now - AppSettings.Current.LastScanTime.Value;
+            string agoStr = ago.TotalMinutes < 1 ? "just now"
+                : ago.TotalHours < 1 ? $"{(int)ago.TotalMinutes}m ago"
+                : ago.TotalDays  < 1 ? $"{(int)ago.TotalHours}h ago"
+                : $"{(int)ago.TotalDays}d ago";
+            statusLabelDLCs.Text += (statusLabelDLCs.Text.Length > 0 ? " — " : "") + $"Last scan: {agoStr}";
+        }
+    }
+
+    private void OnResizeEnd(object sender, EventArgs e)
+    {
+        AppSettings.Current.SaveFormState(this, saveSize: true);
+        AdjustLayoutForSize();
+    }
+
+    private void AdjustLayoutForSize()
+    {
+        // Keep programsGroupBox anchored properly on resize
+        int bottom = ClientSize.Height - statusStrip.Height;
+        programsGroupBox.Size = programsGroupBox.Size with
+        {
+            Height = bottom - programsGroupBox.Top - 170
+        };
+    }
+
 }

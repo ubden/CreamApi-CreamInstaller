@@ -1,0 +1,38 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build & Verify
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: Restore dependencies
+        run: dotnet restore CreamInstaller/CreamInstaller.csproj
+
+      - name: Build (Release)
+        run: dotnet build CreamInstaller/CreamInstaller.csproj -c Release --no-restore
+
+      - name: Check code formatting
+        run: dotnet format CreamInstaller/CreamInstaller.csproj --verify-no-changes --severity warn
+        continue-on-error: true
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CreamInstaller-build
+          path: CreamInstaller/bin/Release/net9.0-windows/
+          retention-days: 7
