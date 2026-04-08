@@ -10,7 +10,7 @@ namespace CreamInstaller.Components;
 /// A custom owner-drawn button with dark theme, rounded corners,
 /// and smooth hover/pressed state transitions.
 /// </summary>
-internal sealed class DarkButton : Button
+internal class DarkButton : Button
 {
     private bool _hovered;
     private bool _pressed;

@@ -12,9 +12,6 @@
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<!-- Suppress analyzer rules that are style preferences or pre-existing patterns -->
-		<NoWarn>CA1806;CA1860;CA1865;CA2263;CA1861;CA1872</NoWarn>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
 		<Deterministic>true</Deterministic>

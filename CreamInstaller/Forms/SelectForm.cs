@@ -678,7 +678,7 @@ internal sealed partial class SelectForm : CustomForm
         }
     }
 
-    private static List<TreeNode> GatherTreeNodes(TreeNodeCollection nodeCollection)
+    private List<TreeNode> GatherTreeNodes(TreeNodeCollection nodeCollection)
     {
         List<TreeNode> treeNodes = new();
         foreach (TreeNode rootNode in nodeCollection)

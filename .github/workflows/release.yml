@@ -35,7 +35,6 @@ jobs:
             --self-contained false `
             -p:PublishSingleFile=true `
             -p:IncludeAllContentForSelfExtract=true `
-            -p:TreatWarningsAsErrors=false `
             -o publish/
 
       - name: Create release archive
