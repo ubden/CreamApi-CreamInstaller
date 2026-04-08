@@ -10,6 +10,8 @@ jobs:
   build:
     name: Build & Verify
     runs-on: windows-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout
