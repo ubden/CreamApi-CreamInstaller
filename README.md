@@ -1,9 +1,4 @@
 ### CreamInstaller v5.0: Automatic DLC Unlocker Installer & Configuration Generator
-
-> 🙌 **Community Support** (No official support provided):
-> - [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions)
-> - [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/)
-
 ---
 
 # ⚠️ Disclaimer 
