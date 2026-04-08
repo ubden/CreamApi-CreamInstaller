@@ -17,7 +17,7 @@ internal static class ThemeManager
     internal static readonly Color AccentPressed = Color.FromArgb(79,  70,  229);  // #4F46E5
     internal static readonly Color TextPrimary   = Color.FromArgb(240, 240, 255);  // #F0F0FF
     internal static readonly Color TextSecondary = Color.FromArgb(148, 148, 185);  // #9494B9
-    internal static readonly Color TextDisabled  = Color.FromArgb(80,  80,  110);  // #50506E
+    internal static readonly Color TextDisabled  = Color.FromArgb(135, 135, 170); // #8787AA  (brighter for dark bg)
     internal static readonly Color Success       = Color.FromArgb(34,  197, 94);   // #22C55E
     internal static readonly Color Warning       = Color.FromArgb(251, 191, 36);   // #FBBF24
     internal static readonly Color Error         = Color.FromArgb(239, 68,  68);   // #EF4444
@@ -88,32 +88,58 @@ internal static class ThemeManager
 
             case CheckBox cb:
                 cb.FlatStyle = FlatStyle.Flat;
-                cb.FlatAppearance.BorderColor = Border;
+                cb.FlatAppearance.BorderColor = cb.Enabled ? Color.FromArgb(99, 102, 241) : Border;
                 cb.FlatAppearance.CheckedBackColor = Accent;
                 cb.FlatAppearance.MouseOverBackColor = SurfaceHover;
+                cb.FlatAppearance.BorderSize = 1;
+                // FlatStyle.Flat ignores ForeColor when disabled; keep it light via EnabledChanged
+                cb.ForeColor = cb.Enabled ? TextPrimary : TextDisabled;
+                cb.EnabledChanged += (s, _) =>
+                {
+                    if (s is not CheckBox c) return;
+                    c.ForeColor = c.Enabled ? TextPrimary : TextDisabled;
+                    c.FlatAppearance.BorderColor = c.Enabled ? Color.FromArgb(99, 102, 241) : Border;
+                };
                 break;
         }
     }
 
-    // ── GroupBox custom paint (dark border + label) ────────────────────────────
+    // ── GroupBox custom paint (dark border + label, no full clear to preserve child controls) ─
     private static void PaintGroupBox(object sender, PaintEventArgs e)
     {
         if (sender is not GroupBox gb) return;
         Graphics g = e.Graphics;
-        g.Clear(Background);
 
-        using Pen borderPen = new(Border, 1);
-        int offset = string.IsNullOrEmpty(gb.Text) ? 0 : 8;
-        Rectangle rect = new(0, offset, gb.Width - 1, gb.Height - 1 - offset);
-        g.DrawRectangle(borderPen, rect);
-
+        // Fill only the interior area (below the title strip) — do NOT clear the full
+        // GroupBox which would paint over header-area child controls (checkboxes etc.)
+        using SolidBrush bgBrush = new(Background);
+        int titleHeight = string.IsNullOrEmpty(gb.Text) ? 0 : (int)g.MeasureString(gb.Text, gb.Font).Height;
+        int headerH = Math.Max(titleHeight, 20);
+        // Fill content area below the header strip
+        g.FillRectangle(bgBrush, 0, headerH, gb.Width, gb.Height - headerH);
+        // Fill the thin strip on each side of the title text (left of it and right of it)
+        SizeF textSize = string.IsNullOrEmpty(gb.Text) ? SizeF.Empty : g.MeasureString(gb.Text, gb.Font);
         if (!string.IsNullOrEmpty(gb.Text))
         {
-            SizeF textSize = g.MeasureString(gb.Text, gb.Font);
-            using SolidBrush bgBrush   = new(Background);
+            g.FillRectangle(bgBrush, 0, 0, 8, headerH);
+            g.FillRectangle(bgBrush, 8 + (int)textSize.Width + 4, 0, gb.Width - (8 + (int)textSize.Width + 4), headerH);
+        }
+        else
+        {
+            g.FillRectangle(bgBrush, 0, 0, gb.Width, headerH);
+        }
+
+        // Border
+        using Pen borderPen = new(Border, 1);
+        int borderOffset = string.IsNullOrEmpty(gb.Text) ? 0 : headerH / 2;
+        Rectangle rect = new(0, borderOffset, gb.Width - 1, gb.Height - 1 - borderOffset);
+        g.DrawRectangle(borderPen, rect);
+
+        // Title text
+        if (!string.IsNullOrEmpty(gb.Text))
+        {
             using SolidBrush textBrush = new(TextSecondary);
-            g.FillRectangle(bgBrush, 8, 0, textSize.Width + 4, textSize.Height);
-            g.DrawString(gb.Text, gb.Font, textBrush, 10, 0);
+            g.DrawString(gb.Text, gb.Font, textBrush, 10, (headerH - textSize.Height) / 2f);
         }
     }
 
