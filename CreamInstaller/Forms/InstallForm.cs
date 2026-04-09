@@ -89,7 +89,7 @@ internal sealed partial class InstallForm : CustomForm
                     UpdateUser("Uninstalling Koaloader from " + selection.Name + $" in incorrect directory \"{directory}\" . . . ", LogTextBox.Operation);
                     await Koaloader.Uninstall(directory, selection.RootDirectory, this);
                 }
-                Thread.Sleep(1);
+                await Task.Delay(1);
             }
         if (uninstalling || !selection.Koaloader)
             foreach ((string directory, BinaryType _) in selection.ExecutableDirectories)
@@ -103,7 +103,7 @@ internal sealed partial class InstallForm : CustomForm
                     UpdateUser("Uninstalling Koaloader from " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);
                     await Koaloader.Uninstall(directory, selection.RootDirectory, this);
                 }
-                Thread.Sleep(1);
+                await Task.Delay(1);
             }
         bool uninstallProxy = uninstalling || selection.Koaloader;
         int count = selection.DllDirectories.Count, cur = 0;
@@ -175,7 +175,7 @@ internal sealed partial class InstallForm : CustomForm
                 }
             }
             UpdateProgress(++cur / count * 100);
-            Thread.Sleep(1);
+            await Task.Delay(1);
         }
         if (selection.Koaloader && !uninstalling)
             foreach ((string directory, BinaryType binaryType) in selection.ExecutableDirectories)
@@ -184,7 +184,7 @@ internal sealed partial class InstallForm : CustomForm
                     throw new CustomMessageException("The operation was canceled.");
                 UpdateUser("Installing Koaloader to " + selection.Name + $" in directory \"{directory}\" . . . ", LogTextBox.Operation);
                 await Koaloader.Install(directory, binaryType, selection, selection.RootDirectory, this);
-                Thread.Sleep(1);
+                await Task.Delay(1);
             }
         UpdateProgress(100);
     }

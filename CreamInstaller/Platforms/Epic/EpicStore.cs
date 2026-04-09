@@ -121,7 +121,7 @@ internal static class EpicStore
             HttpClient client = HttpClientManager.HttpClient;
             if (client is null)
                 return null;
-            HttpResponseMessage httpResponse = await client.PostAsync(new Uri("https://graphql.epicgames.com/graphql"), content);
+            using HttpResponseMessage httpResponse = await client.PostAsync(new Uri("https://graphql.epicgames.com/graphql"), content);
             _ = httpResponse.EnsureSuccessStatusCode();
             string response = await httpResponse.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Response>(response);
