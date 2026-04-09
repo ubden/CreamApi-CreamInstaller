@@ -5,7 +5,7 @@ title: '[Enhancement] '
 labels: Enhancement
 assignees: ''
 
----
+----
 
 > 💡 **Have an idea?** You can also discuss it in the community first:
 > - [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions)
