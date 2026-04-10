@@ -133,7 +133,7 @@ internal static class SteamStore
                 }
             if (isDlc || attempts >= 10)
                 return null;
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
             attempts = ++attempts;
         }
     }

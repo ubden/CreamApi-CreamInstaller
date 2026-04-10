@@ -306,7 +306,7 @@ internal static class SteamCMD
 
     internal static void Dispose()
     {
-        Kill().Wait();
+        Kill().GetAwaiter().GetResult();
         if (Directory.Exists(DirectoryPath))
             Directory.Delete(DirectoryPath, true);
     }

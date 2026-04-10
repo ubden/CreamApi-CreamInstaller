@@ -204,7 +204,7 @@ internal sealed partial class SelectForm : CustomForm
                                 if (Program.Canceled)
                                     return;
                                 do // give games steam store api limit priority
-                                    Thread.Sleep(200);
+                                    await Task.Delay(200);
                                 while (!Program.Canceled && steamGamesToCheck > 0);
                                 if (Program.Canceled)
                                     return;
