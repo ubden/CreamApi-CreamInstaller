@@ -144,7 +144,7 @@ The main job is to **generate and install DLC unlocker configs automatically** f
 | **3** | If you picked a Steam game, wait while SteamCMD is downloaded and installed. *Usually quick; depends on your connection.* |
 | **4** | Wait while game info and DLCs are gathered and cached. *The first run can take a while if you selected many games with many DLCs.* |
 | **5** | **CAREFULLY** select the games and DLCs you want to unlock. *No unlocker has been tested on every game.* |
-| **6** | Decide whether to use **Koaloader**, and if so, choose a proxy DLL. *If the default `version.dll` doesn't work, see the [forum thread](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/).* |
+| **6** | Decide whether to use **Koaloader**, and if so, choose a proxy DLL. *If the default `version.dll` doesn't work, see the [forum thread](https://forum.ubden.com/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/).* |
 | **7** | Click **Generate and Install**. 🎉 |
 | **8** | Click **OK** to close the program. |
 | **↩️** | If an unlocker causes trouble, return to scene 5, select the games to revert, and click **Uninstall Selected**. |
@@ -208,7 +208,7 @@ Report bugs and crashes on the [**GitHub Issues**](https://github.com/ubden/Crea
 > [!WARNING]
 > **No official support is provided.** For community help, use:
 > - 💬 [GitHub Discussions](https://github.com/ubden/CreamApi-CreamInstaller/discussions)
-> - 🗣️ [ubden Forum](https://forum.ubden.com.tr/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/)
+> - 🗣️ [ubden Forum](https://forum.ubden.com/konu/creaminstaller-auto-dlc-unlocker-installer-config-gen.1602/)
 
 Want to contribute? Read the [Contributing Guide](.github/CONTRIBUTING.md) first.
 
