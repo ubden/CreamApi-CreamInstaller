@@ -2,11 +2,6 @@
 <div align="center">
 
 
-
-<a href="https://github.com/ubden/CreamApi-CreamInstaller">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=FF8A00&center=true&vCenter=true&width=640&lines=Scan+your+Steam%2C+Epic+%26+Ubisoft+library.;Pick+the+DLC.+Hit+Generate+and+Install.;One+click+to+install.+One+click+to+revert.;Open+source.+No+obfuscation.+Built+by+the+community." alt="Typing intro" />
-</a>
-
 <br/>
 
 [![Latest Release](https://img.shields.io/github/v/release/ubden/CreamApi-CreamInstaller?style=for-the-badge&logo=github&color=ff8a00&label=release)](https://github.com/ubden/CreamApi-CreamInstaller/releases/latest)
